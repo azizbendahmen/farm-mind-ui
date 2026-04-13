@@ -1,16 +1,25 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Navbar from "@/components/dashboard/Navbar";
+import TelemetryCards from "@/components/dashboard/TelemetryCards";
+import TelemetryChart from "@/components/dashboard/TelemetryChart";
+import StatusPanel from "@/components/dashboard/StatusPanel";
+import AISection from "@/components/dashboard/AISection";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
-  return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
-  );
-};
+const Index = () => (
+  <div className="min-h-screen bg-background">
+    <Navbar />
+    <main className="mx-auto max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
+      <TelemetryCards />
 
-const Index = PlaceholderIndex;
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <TelemetryChart />
+        </div>
+        <StatusPanel />
+      </div>
+
+      <AISection />
+    </main>
+  </div>
+);
 
 export default Index;
