@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
-import leafIcon from "@/assets/leaf-icon.png";
 
 import {
   Sidebar,
@@ -40,7 +39,6 @@ const aiItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const location = useLocation();
 
   return (
     <Sidebar collapsible="icon">
