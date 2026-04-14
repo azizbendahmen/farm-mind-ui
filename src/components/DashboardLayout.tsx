@@ -1,34 +1,33 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Outlet } from "react-router-dom";
-import greenhouseBg from "@/assets/greenhouse-bg.jpg";
+import { Clock } from "lucide-react";
 
 const DashboardLayout = () => (
   <SidebarProvider>
-    <div className="min-h-screen flex w-full relative">
-      {/* Background image overlay */}
-      <div
-        className="fixed inset-0 z-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `url(${greenhouseBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-
+    <div className="min-h-screen flex w-full bg-background">
       <AppSidebar />
-
-      <div className="flex-1 flex flex-col relative z-10">
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
+      <div className="flex-1 flex flex-col">
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-card/80 backdrop-blur-md px-6">
           <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-          <div className="ml-auto flex items-center gap-3">
-            <span className="text-xs text-muted-foreground hidden sm:inline">
-              Dernière MAJ : {new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-            </span>
+          <div className="ml-auto flex items-center gap-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Clock className="h-3.5 w-3.5" />
+              <span>
+                Dernière MAJ : {new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 rounded-full bg-primary/8 border border-primary/15 px-3 py-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              <span className="text-xs font-medium text-primary">Online</span>
+            </div>
           </div>
         </header>
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 p-5 sm:p-8 lg:p-10">
           <Outlet />
         </main>
       </div>

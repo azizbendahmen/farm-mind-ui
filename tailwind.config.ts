@@ -12,8 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["DM Sans", "system-ui", "sans-serif"],
-        heading: ["Space Grotesk", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        heading: ["Playfair Display", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -53,6 +53,7 @@ export default {
           DEFAULT: "hsl(var(--leaf))",
           dark: "hsl(var(--leaf-dark))",
           light: "hsl(var(--leaf-light))",
+          muted: "hsl(var(--leaf-muted))",
         },
         soil: "hsl(var(--soil))",
         sunlight: "hsl(var(--sunlight))",
@@ -66,6 +67,8 @@ export default {
         },
         danger: "hsl(var(--danger))",
         warning: "hsl(var(--warning))",
+        cream: "hsl(var(--cream))",
+        sage: "hsl(var(--sage))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
