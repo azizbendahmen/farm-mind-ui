@@ -23,11 +23,12 @@ const gasData = [
 ];
 
 const tooltipStyle = {
-  backgroundColor: "hsl(140, 15%, 12%)",
-  border: "1px solid hsl(140, 10%, 20%)",
+  backgroundColor: "#ffffff",
+  border: "1px solid hsl(120, 12%, 88%)",
   borderRadius: "12px",
   fontSize: "11px",
-  color: "hsl(80, 30%, 92%)",
+  color: "hsl(150, 25%, 12%)",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
 };
 
 const ChartsPage = () => (
@@ -37,46 +38,46 @@ const ChartsPage = () => (
       <p className="text-sm text-muted-foreground">Évolution temporelle des données capteurs</p>
     </div>
 
-    <div className="glass-card p-6">
-      <h3 className="font-heading text-sm font-semibold text-foreground mb-1">Télémétrie Temporelle</h3>
-      <p className="text-xs text-muted-foreground mb-6">Température, humidité air & sol — 14h</p>
-      <ResponsiveContainer width="100%" height={320}>
+    <div className="botanical-card p-6 sm:p-8">
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Télémétrie Temporelle</h3>
+      <p className="text-xs text-muted-foreground mb-8">Température, humidité air & sol — dernières 14h</p>
+      <ResponsiveContainer width="100%" height={340}>
         <AreaChart data={tempData}>
           <defs>
             <linearGradient id="gTemp" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(30, 90%, 55%)" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="hsl(30, 90%, 55%)" stopOpacity={0} />
+              <stop offset="5%" stopColor="hsl(30, 85%, 52%)" stopOpacity={0.15} />
+              <stop offset="95%" stopColor="hsl(30, 85%, 52%)" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="gHumAir" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(200, 80%, 55%)" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="hsl(200, 80%, 55%)" stopOpacity={0} />
+              <stop offset="5%" stopColor="hsl(200, 70%, 50%)" stopOpacity={0.15} />
+              <stop offset="95%" stopColor="hsl(200, 70%, 50%)" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="gHumSol" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(152, 60%, 48%)" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="hsl(152, 60%, 48%)" stopOpacity={0} />
+              <stop offset="5%" stopColor="hsl(152, 55%, 38%)" stopOpacity={0.15} />
+              <stop offset="95%" stopColor="hsl(152, 55%, 38%)" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(140, 10%, 20%)" />
-          <XAxis dataKey="time" tick={{ fontSize: 11, fill: "hsl(140, 8%, 55%)" }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 11, fill: "hsl(140, 8%, 55%)" }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 12%, 90%)" />
+          <XAxis dataKey="time" tick={{ fontSize: 11, fill: "hsl(150, 10%, 45%)" }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: "hsl(150, 10%, 45%)" }} axisLine={false} tickLine={false} />
           <Tooltip contentStyle={tooltipStyle} />
-          <Area type="monotone" dataKey="temp" stroke="hsl(30, 90%, 55%)" fill="url(#gTemp)" strokeWidth={2} name="Temp °C" dot={false} />
-          <Area type="monotone" dataKey="humAir" stroke="hsl(200, 80%, 55%)" fill="url(#gHumAir)" strokeWidth={2} name="Hum. Air %" dot={false} />
-          <Area type="monotone" dataKey="humSol" stroke="hsl(152, 60%, 48%)" fill="url(#gHumSol)" strokeWidth={2} name="Hum. Sol %" dot={false} />
+          <Area type="monotone" dataKey="temp" stroke="hsl(30, 85%, 52%)" fill="url(#gTemp)" strokeWidth={2.5} name="Temp °C" dot={false} />
+          <Area type="monotone" dataKey="humAir" stroke="hsl(200, 70%, 50%)" fill="url(#gHumAir)" strokeWidth={2.5} name="Hum. Air %" dot={false} />
+          <Area type="monotone" dataKey="humSol" stroke="hsl(152, 55%, 38%)" fill="url(#gHumSol)" strokeWidth={2.5} name="Hum. Sol %" dot={false} />
         </AreaChart>
       </ResponsiveContainer>
     </div>
 
-    <div className="glass-card p-6">
-      <h3 className="font-heading text-sm font-semibold text-foreground mb-1">Qualité de l'Air (COV)</h3>
-      <p className="text-xs text-muted-foreground mb-6">Résistance du capteur MQ-135 en kΩ</p>
-      <ResponsiveContainer width="100%" height={200}>
+    <div className="botanical-card p-6 sm:p-8">
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Qualité de l'Air (COV)</h3>
+      <p className="text-xs text-muted-foreground mb-8">Résistance du capteur MQ-135 en kΩ</p>
+      <ResponsiveContainer width="100%" height={220}>
         <LineChart data={gasData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(140, 10%, 20%)" />
-          <XAxis dataKey="time" tick={{ fontSize: 11, fill: "hsl(140, 8%, 55%)" }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 11, fill: "hsl(140, 8%, 55%)" }} axisLine={false} tickLine={false} domain={[3.5, 5]} />
+          <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 12%, 90%)" />
+          <XAxis dataKey="time" tick={{ fontSize: 11, fill: "hsl(150, 10%, 45%)" }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: "hsl(150, 10%, 45%)" }} axisLine={false} tickLine={false} domain={[3.5, 5]} />
           <Tooltip contentStyle={tooltipStyle} />
-          <Line type="monotone" dataKey="cov" stroke="hsl(152, 60%, 48%)" strokeWidth={2} dot={false} name="COV kΩ" />
+          <Line type="monotone" dataKey="cov" stroke="hsl(152, 55%, 38%)" strokeWidth={2.5} dot={false} name="COV kΩ" />
         </LineChart>
       </ResponsiveContainer>
     </div>

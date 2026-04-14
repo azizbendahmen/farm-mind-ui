@@ -1,5 +1,4 @@
 import { Thermometer, Droplets, Sprout, Wind } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 
 const sensors = [
   {
@@ -11,6 +10,8 @@ const sensors = [
     optimal: [20, 28],
     icon: Thermometer,
     color: "bg-warning",
+    iconColor: "text-warning",
+    bgColor: "bg-warning/8",
     description: "Capteur DHT22 — Zone A",
   },
   {
@@ -22,6 +23,8 @@ const sensors = [
     optimal: [60, 80],
     icon: Droplets,
     color: "bg-water",
+    iconColor: "text-water",
+    bgColor: "bg-water/8",
     description: "Capteur DHT22 — Zone A",
   },
   {
@@ -33,6 +36,8 @@ const sensors = [
     optimal: [30, 60],
     icon: Sprout,
     color: "bg-danger",
+    iconColor: "text-danger",
+    bgColor: "bg-danger/8",
     alert: true,
     description: "Capteur capacitif — Bac 3",
   },
@@ -44,7 +49,9 @@ const sensors = [
     max: 10,
     optimal: [3, 8],
     icon: Wind,
-    color: "bg-leaf",
+    color: "bg-primary",
+    iconColor: "text-primary",
+    bgColor: "bg-primary/8",
     description: "Capteur MQ-135 — Zone A",
   },
 ];
@@ -63,42 +70,37 @@ const TelemetryPage = () => (
         return (
           <div
             key={s.label}
-            className={`glass-card p-6 space-y-4 ${s.alert ? "ring-1 ring-danger/40" : ""}`}
+            className={`botanical-card p-6 space-y-5 ${s.alert ? "border-l-4 border-l-danger" : ""}`}
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">{s.label}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.label}</p>
                 <p className="text-[11px] text-muted-foreground/60 mt-0.5">{s.description}</p>
               </div>
-              <div className={`p-2 rounded-xl ${s.alert ? "bg-danger/10" : "bg-secondary"}`}>
-                <s.icon className={`h-5 w-5 ${s.alert ? "text-danger" : "text-muted-foreground"}`} />
+              <div className={`p-2.5 rounded-xl ${s.bgColor}`}>
+                <s.icon className={`h-5 w-5 ${s.iconColor}`} />
               </div>
             </div>
 
-            <div>
-              <p className="font-heading text-5xl font-bold text-foreground">
-                {s.value}
-                <span className="text-lg font-normal text-muted-foreground ml-1">{s.unit}</span>
-              </p>
-            </div>
+            <p className="font-heading text-5xl font-bold text-foreground">
+              {s.value}
+              <span className="text-lg font-sans font-normal text-muted-foreground ml-1">{s.unit}</span>
+            </p>
 
-            <div className="space-y-2">
-              <div className="h-2 rounded-full bg-secondary overflow-hidden">
+            <div className="space-y-2.5">
+              <div className="h-2.5 rounded-full bg-muted overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-1000 ${s.color}`}
                   style={{ width: `${Math.min(percent, 100)}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] text-muted-foreground">
+              <div className="flex justify-between text-[11px] text-muted-foreground">
                 <span>Min: {s.min}{s.unit}</span>
-                <span className={inRange ? "text-primary font-medium" : "text-danger font-medium"}>
-                  {inRange ? "✓ Dans la plage" : "✗ Hors plage"}
+                <span className={`font-medium ${inRange ? "text-primary" : "text-danger"}`}>
+                  {inRange ? "✓ Dans la plage optimale" : "✗ Hors plage optimale"}
                 </span>
                 <span>Max: {s.max}{s.unit}</span>
               </div>
-              <p className="text-[10px] text-muted-foreground/60">
-                Plage optimale : {s.optimal[0]}–{s.optimal[1]} {s.unit}
-              </p>
             </div>
           </div>
         );
