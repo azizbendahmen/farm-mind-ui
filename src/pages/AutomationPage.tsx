@@ -1,4 +1,4 @@
-import { CloudRain, Fan, Pipette, Power, Pause } from "lucide-react";
+import { CloudRain, Fan, Pipette, Power, Pause, Cloud, CloudDrizzle, Sun, CloudSun, Wind, Droplets, Thermometer, Umbrella, Sunrise, Sunset } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
