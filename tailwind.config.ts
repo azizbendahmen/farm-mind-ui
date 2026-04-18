@@ -8,12 +8,14 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: { "2xl": "1400px" },
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        heading: ["Playfair Display", "serif"],
+        display: ["Poppins", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -49,26 +51,20 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        leaf: {
-          DEFAULT: "hsl(var(--leaf))",
-          dark: "hsl(var(--leaf-dark))",
-          light: "hsl(var(--leaf-light))",
-          muted: "hsl(var(--leaf-muted))",
+        emerald: {
+          DEFAULT: "hsl(var(--emerald))",
+          light: "hsl(var(--emerald-light))",
+          foreground: "hsl(var(--emerald-foreground))",
         },
-        soil: "hsl(var(--soil))",
-        sunlight: "hsl(var(--sunlight))",
-        water: {
-          DEFAULT: "hsl(var(--water))",
-          light: "hsl(var(--water-light))",
+        "alert-orange": {
+          DEFAULT: "hsl(var(--alert-orange))",
+          light: "hsl(var(--alert-orange-light))",
         },
         ai: {
-          glow: "hsl(var(--ai-glow))",
-          "glow-light": "hsl(var(--ai-glow-light))",
+          indigo: "hsl(var(--ai-indigo))",
+          "indigo-light": "hsl(var(--ai-indigo-light))",
+          blue: "hsl(var(--ai-blue))",
         },
-        danger: "hsl(var(--danger))",
-        warning: "hsl(var(--warning))",
-        cream: "hsl(var(--cream))",
-        sage: "hsl(var(--sage))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
