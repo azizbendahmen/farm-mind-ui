@@ -13,28 +13,8 @@ const AutomationPage = () => {
         <p className="text-sm text-muted-foreground">Contrôle des équipements et prévisions météo</p>
       </div>
 
-      {/* Weather Banner */}
-      <div className="botanical-card p-6 border-l-4 border-l-warning">
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-2xl bg-warning/10">
-            <CloudRain className="h-7 w-7 text-warning" />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-heading text-lg font-semibold text-foreground mb-1">
-              Prévision Météo
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-              Pluie attendue à 16h00 — probabilité <span className="text-warning font-bold">78%</span>.
-              Recommandation : reporter l'arrosage externe.
-            </p>
-            <div className="flex gap-5 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">🌡️ Ext: 19°C</span>
-              <span className="flex items-center gap-1.5">💧 Précip: 12mm</span>
-              <span className="flex items-center gap-1.5">💨 Vent: 15 km/h NO</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* ===== Creative Weather Forecast ===== */}
+      <WeatherForecast />
 
       {/* Equipment Controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
