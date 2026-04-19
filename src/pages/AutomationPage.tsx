@@ -1,4 +1,4 @@
-import { CloudRain, Fan, Pipette, Power, Pause, Cloud, CloudDrizzle, Sun, CloudSun, Wind, Droplets, Thermometer, Umbrella, Sunrise, Sunset, Sparkles, Hand } from "lucide-react";
+import { CloudRain, Fan, Pipette, Power, Pause, Cloud, CloudDrizzle, Sun, CloudSun, Wind, Droplets, Sparkles, Hand, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -141,138 +141,118 @@ const EquipmentCard = ({
   );
 };
 
-/* ===================== Compact Creative Weather Forecast ===================== */
-const HOURLY = [
-  { h: "12h", t: 22, p: 5,  icon: Sun },
-  { h: "13h", t: 23, p: 10, icon: CloudSun },
-  { h: "14h", t: 22, p: 25, icon: Cloud },
-  { h: "15h", t: 21, p: 55, icon: CloudDrizzle },
-  { h: "16h", t: 19, p: 78, icon: CloudRain, peak: true },
-  { h: "17h", t: 18, p: 65, icon: CloudRain },
-  { h: "18h", t: 18, p: 40, icon: CloudDrizzle },
-  { h: "19h", t: 19, p: 15, icon: Cloud },
-];
+/* ===================== Simple Weather Forecast =====================
+   TODO: Remplacez `weather` par les données de votre API météo.
+   Exemple d'intégration :
+     const { data: weather } = useQuery({
+       queryKey: ["weather"],
+       queryFn: async () => {
+         const res = await fetch("https://api.openweathermap.org/...");
+         const json = await res.json();
+         return {
+           temp: Math.round(json.main.temp),
+           feelsLike: Math.round(json.main.feels_like),
+           condition: json.weather[0].main,            // "Rain" | "Clouds" | "Clear" | ...
+           description: json.weather[0].description,
+           rainProbability: Math.round((json.pop ?? 0) * 100),
+           humidity: json.main.humidity,
+           wind: Math.round(json.wind.speed * 3.6),
+           rainMm: json.rain?.["1h"] ?? 0,
+         };
+       },
+     });
+================================================================== */
 
-const WeatherForecast = () => (
-  <div className="relative overflow-hidden rounded-2xl border border-border shadow-sm">
-    {/* Sky gradient */}
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(210 65% 88%) 0%, hsl(220 50% 78%) 45%, hsl(230 35% 55%) 100%)",
-      }}
-    />
-    {/* Animated rain */}
-    <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden">
-      {Array.from({ length: 20 }).map((_, i) => (
-        <span
-          key={i}
-          className="absolute block w-px bg-gradient-to-b from-transparent via-white to-transparent"
-          style={{
-            left: `${(i * 5) % 100}%`,
-            top: `-${Math.random() * 40}%`,
-            height: `${15 + Math.random() * 25}px`,
-            animation: `rain-fall ${0.6 + Math.random() * 0.8}s linear ${Math.random()}s infinite`,
-          }}
-        />
-      ))}
-    </div>
-    {/* Soft clouds */}
-    <div className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-white/30 blur-3xl" />
-    <div className="absolute top-10 left-1/3 h-20 w-20 rounded-full bg-white/20 blur-2xl" />
+type WeatherData = {
+  temp: number;
+  feelsLike: number;
+  condition: "Rain" | "Drizzle" | "Clouds" | "Clear" | "PartlyCloudy";
+  description: string;
+  rainProbability: number;
+  humidity: number;
+  wind: number;
+  rainMm: number;
+};
 
-    <div className="relative z-10 p-4 sm:p-5 text-white">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.15em] mb-1.5">
-            <span className="h-1 w-1 rounded-full bg-white animate-pulse" />
-            Live · Météo France
-          </span>
-          <h2 className="font-heading text-xl sm:text-2xl font-bold leading-tight">
-            Pluie attendue à 16h
-          </h2>
-          <p className="text-[11px] text-white/80 mt-0.5">
-            Probabilité <span className="font-bold text-white">78%</span> · Reportez l'arrosage
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <CloudRain className="h-10 w-10 text-white drop-shadow-lg animate-float" />
-          <div>
-            <p className="font-heading text-3xl font-bold leading-none">19°</p>
-            <p className="text-[10px] text-white/70 mt-0.5">Ressenti 17°</p>
+// ⚠️ Données de démo — à remplacer par votre API
+const MOCK_WEATHER: WeatherData = {
+  temp: 19,
+  feelsLike: 17,
+  condition: "Rain",
+  description: "Pluie attendue à 16h",
+  rainProbability: 78,
+  humidity: 84,
+  wind: 15,
+  rainMm: 12,
+};
+
+const CONDITION_MAP: Record<WeatherData["condition"], { icon: LucideIcon; label: string }> = {
+  Rain:         { icon: CloudRain,    label: "Pluie" },
+  Drizzle:      { icon: CloudDrizzle, label: "Bruine" },
+  Clouds:       { icon: Cloud,        label: "Nuageux" },
+  Clear:        { icon: Sun,          label: "Ensoleillé" },
+  PartlyCloudy: { icon: CloudSun,     label: "Éclaircies" },
+};
+
+const WeatherForecast = ({ weather = MOCK_WEATHER }: { weather?: WeatherData }) => {
+  const { icon: Icon } = CONDITION_MAP[weather.condition];
+  const willRain = weather.rainProbability >= 50;
+
+  return (
+    <div className="botanical-card p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-4">
+        {/* Left: condition + advice */}
+        <div className="flex items-center gap-3 min-w-0">
+          <div className={`p-3 rounded-2xl shrink-0 ${willRain ? "bg-water/10" : "bg-warning/10"}`}>
+            <Icon className={`h-7 w-7 ${willRain ? "text-water" : "text-warning"}`} />
+          </div>
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Météo · Aujourd'hui
+            </p>
+            <h2 className="font-heading text-base sm:text-lg font-bold text-foreground truncate">
+              {weather.description}
+            </h2>
+            {willRain && (
+              <p className="text-xs text-water font-medium mt-0.5">
+                💧 Reportez l'arrosage
+              </p>
+            )}
           </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-4 gap-1.5 mb-4">
-        <MiniStat icon={Droplets} label="Précip." value="12 mm" />
-        <MiniStat icon={Wind} label="Vent" value="15 km/h" />
-        <MiniStat icon={Umbrella} label="Humidité" value="84%" />
-        <MiniStat icon={Thermometer} label="Pression" value="1008" />
-      </div>
-
-      <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-3">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/80">
-            Prévisions horaires
+        {/* Right: temperature */}
+        <div className="text-right shrink-0">
+          <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground leading-none">
+            {weather.temp}°
           </p>
-          <div className="flex items-center gap-2 text-[9px] text-white/60">
-            <span className="flex items-center gap-1"><Sunrise className="h-2.5 w-2.5" /> 06:42</span>
-            <span className="flex items-center gap-1"><Sunset className="h-2.5 w-2.5" /> 21:18</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-8 gap-1 sm:gap-2">
-          {HOURLY.map((slot) => {
-            const Icon = slot.icon;
-            return (
-              <div key={slot.h} className="flex flex-col items-center gap-1.5">
-                <span className={`text-[10px] font-bold ${slot.peak ? "text-white" : "text-white/70"}`}>
-                  {slot.p}%
-                </span>
-                <div className="relative w-full h-10 rounded-full bg-white/10 overflow-hidden">
-                  <div
-                    className={`absolute bottom-0 left-0 right-0 rounded-full transition-all duration-700 ${
-                      slot.peak
-                        ? "bg-gradient-to-t from-white to-white/60"
-                        : "bg-gradient-to-t from-white/70 to-white/30"
-                    }`}
-                    style={{ height: `${slot.p}%` }}
-                  />
-                  {slot.peak && (
-                    <span className="absolute -top-0.5 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-warning animate-pulse ring-2 ring-warning/40" />
-                  )}
-                </div>
-                <Icon className={`h-3 w-3 ${slot.peak ? "text-white" : "text-white/70"}`} />
-                <span className="text-[9px] font-medium text-white/80">{slot.t}°</span>
-                <span className={`text-[9px] ${slot.peak ? "font-bold text-white" : "text-white/60"}`}>
-                  {slot.h}
-                </span>
-              </div>
-            );
-          })}
+          <p className="text-[11px] text-muted-foreground mt-1">Ressenti {weather.feelsLike}°</p>
         </div>
       </div>
-    </div>
 
-    <style>{`
-      @keyframes rain-fall {
-        0%   { transform: translateY(-20px); opacity: 0; }
-        20%  { opacity: 1; }
-        100% { transform: translateY(300px); opacity: 0; }
-      }
-    `}</style>
-  </div>
-);
-
-const MiniStat = ({ icon: Icon, label, value }: { icon: any; label: string; value: string }) => (
-  <div className="rounded-lg bg-white/10 backdrop-blur-md border border-white/15 px-2.5 py-2">
-    <div className="flex items-center gap-1 text-white/70 mb-0.5">
-      <Icon className="h-2.5 w-2.5" />
-      <span className="text-[9px] uppercase tracking-wider font-semibold">{label}</span>
+      {/* Stats row */}
+      <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-border">
+        <MiniStat icon={CloudRain} label="Pluie" value={`${weather.rainProbability}%`} highlight={willRain} />
+        <MiniStat icon={Droplets}  label="Humidité" value={`${weather.humidity}%`} />
+        <MiniStat icon={Wind}      label="Vent" value={`${weather.wind} km/h`} />
+      </div>
     </div>
-    <p className="text-xs font-bold text-white">{value}</p>
+  );
+};
+
+const MiniStat = ({
+  icon: Icon, label, value, highlight,
+}: { icon: LucideIcon; label: string; value: string; highlight?: boolean }) => (
+  <div className="flex items-center gap-2">
+    <Icon className={`h-4 w-4 shrink-0 ${highlight ? "text-water" : "text-muted-foreground"}`} />
+    <div className="min-w-0">
+      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground leading-none">
+        {label}
+      </p>
+      <p className={`text-sm font-bold leading-tight mt-0.5 ${highlight ? "text-water" : "text-foreground"}`}>
+        {value}
+      </p>
+    </div>
   </div>
 );
 
