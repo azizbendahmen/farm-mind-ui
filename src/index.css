@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,63 +6,64 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 215 25% 15%;
+    --background: 90 20% 97%;
+    --foreground: 150 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 150 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 150 25% 12%;
 
-    --primary: 215 25% 15%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 152 55% 38%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 215 25% 27%;
+    --secondary: 120 15% 93%;
+    --secondary-foreground: 150 20% 25%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 215 14% 46%;
+    --muted: 100 10% 94%;
+    --muted-foreground: 150 10% 45%;
 
-    --accent: 160 84% 39%;
+    --accent: 80 50% 48%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 65% 52%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 215 25% 15%;
+    --border: 120 12% 88%;
+    --input: 120 12% 88%;
+    --ring: 152 55% 38%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    /* GreenHouse OS custom tokens */
-    --emerald: 160 84% 39%;
-    --emerald-light: 152 76% 92%;
-    --emerald-foreground: 0 0% 100%;
+    /* Greenhouse custom tokens */
+    --leaf: 152 55% 38%;
+    --leaf-dark: 152 45% 22%;
+    --leaf-light: 142 40% 90%;
+    --leaf-muted: 145 25% 82%;
 
-    --alert-orange: 25 95% 53%;
-    --alert-orange-light: 33 100% 96%;
+    --soil: 28 35% 40%;
+    --sunlight: 44 85% 58%;
+    --water: 200 70% 50%;
+    --water-light: 200 50% 90%;
 
-    --ai-indigo: 239 84% 67%;
-    --ai-indigo-light: 226 100% 97%;
-    --ai-blue: 217 91% 60%;
+    --ai-glow: 235 65% 52%;
+    --ai-glow-light: 235 50% 94%;
 
-    --slate-50: 210 40% 98%;
-    --slate-100: 210 40% 96%;
-    --slate-200: 214 32% 91%;
-    --slate-500: 215 16% 47%;
-    --slate-700: 215 25% 27%;
-    --slate-900: 222 47% 11%;
+    --danger: 0 65% 52%;
+    --warning: 30 85% 52%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --cream: 42 40% 95%;
+    --sage: 145 20% 78%;
+
+    --sidebar-background: 150 30% 14%;
+    --sidebar-foreground: 100 15% 85%;
+    --sidebar-primary: 152 55% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 150 20% 20%;
+    --sidebar-accent-foreground: 100 15% 90%;
+    --sidebar-border: 150 15% 22%;
+    --sidebar-ring: 152 55% 50%;
   }
 }
 
@@ -70,23 +71,73 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: 'Poppins', sans-serif;
+  .font-heading {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .botanical-card {
+    @apply rounded-2xl border border-border bg-card shadow-sm transition-all duration-300;
+  }
+
+  .botanical-card-hover {
+    @apply botanical-card hover:shadow-md hover:-translate-y-0.5;
+  }
+
+  .nature-gradient {
+    background: linear-gradient(135deg, hsl(var(--leaf-light)) 0%, hsl(var(--cream)) 50%, hsl(var(--water-light)) 100%);
+  }
+
+  .leaf-gradient {
+    background: linear-gradient(135deg, hsl(152, 55%, 38%) 0%, hsl(142, 50%, 45%) 100%);
+  }
+
+  .glow-green {
+    box-shadow: 0 4px 20px hsl(var(--leaf) / 0.12);
   }
 
   @keyframes scanner {
     0% { top: 0%; }
-    100% { top: 100%; }
+    100% { top: 95%; }
+  }
+  .animate-scanner {
+    animation: scanner 2.5s ease-in-out infinite alternate;
   }
 
-  .animate-scanner {
-    animation: scanner 2s ease-in-out infinite alternate;
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  @keyframes grow {
+    0% { transform: scaleY(0); transform-origin: bottom; }
+    100% { transform: scaleY(1); transform-origin: bottom; }
+  }
+  .animate-grow {
+    animation: grow 0.8s ease-out forwards;
   }
 }
