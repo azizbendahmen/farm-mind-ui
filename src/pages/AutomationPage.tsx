@@ -195,43 +195,63 @@ const CONDITION_MAP: Record<WeatherData["condition"], { icon: LucideIcon; label:
 };
 
 const WeatherForecast = ({ weather = MOCK_WEATHER }: { weather?: WeatherData }) => {
-  const { icon: Icon } = CONDITION_MAP[weather.condition];
+  const { icon: Icon, label } = CONDITION_MAP[weather.condition];
   const willRain = weather.rainProbability >= 50;
+  const accent = willRain ? "water" : "sunlight";
 
   return (
-    <div className="botanical-card p-4 sm:p-5">
-      <div className="flex items-center justify-between gap-4">
+    <div className="botanical-card relative overflow-hidden p-5 sm:p-6">
+      {/* Decorative organic blob */}
+      <div
+        className={`pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl opacity-40 ${
+          willRain ? "bg-water/30" : "bg-sunlight/30"
+        }`}
+      />
+      <div
+        className="pointer-events-none absolute -bottom-20 -left-10 h-40 w-40 rounded-full blur-3xl opacity-30 bg-leaf-light"
+      />
+
+      <div className="relative flex items-center justify-between gap-5">
         {/* Left: condition + advice */}
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={`p-3 rounded-2xl shrink-0 ${willRain ? "bg-water/10" : "bg-warning/10"}`}>
-            <Icon className={`h-7 w-7 ${willRain ? "text-water" : "text-warning"}`} />
+        <div className="flex items-center gap-4 min-w-0">
+          <div className={`relative p-3.5 rounded-2xl shrink-0 ${willRain ? "bg-water/10 ring-1 ring-water/20" : "bg-sunlight/10 ring-1 ring-sunlight/20"}`}>
+            <Icon className={`h-7 w-7 ${willRain ? "text-water" : "text-sunlight"}`} />
+            <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+              <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${willRain ? "bg-water" : "bg-sunlight"}`} />
+              <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${willRain ? "bg-water" : "bg-sunlight"}`} />
+            </span>
           </div>
           <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Météo · Aujourd'hui
-            </p>
-            <h2 className="font-heading text-base sm:text-lg font-bold text-foreground truncate">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                Météo · Aujourd'hui
+              </span>
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md ${willRain ? "bg-water/10 text-water" : "bg-sunlight/10 text-sunlight"}`}>
+                {label}
+              </span>
+            </div>
+            <h2 className="font-heading text-lg sm:text-xl font-bold text-foreground truncate leading-tight">
               {weather.description}
             </h2>
             {willRain && (
-              <p className="text-xs text-water font-medium mt-0.5">
-                💧 Reportez l'arrosage
+              <p className="text-xs text-water font-medium mt-1 flex items-center gap-1">
+                <Droplets className="h-3 w-3" /> Arrosage automatique reporté
               </p>
             )}
           </div>
         </div>
 
         {/* Right: temperature */}
-        <div className="text-right shrink-0">
-          <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground leading-none">
-            {weather.temp}°
+        <div className="text-right shrink-0 pl-3 border-l border-border/60">
+          <p className="font-heading text-4xl sm:text-5xl font-bold text-foreground leading-none tracking-tight">
+            {weather.temp}<span className="text-2xl text-muted-foreground font-normal">°C</span>
           </p>
-          <p className="text-[11px] text-muted-foreground mt-1">Ressenti {weather.feelsLike}°</p>
+          <p className="text-[11px] text-muted-foreground mt-1.5">Ressenti {weather.feelsLike}°</p>
         </div>
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-border">
+      <div className="relative grid grid-cols-3 gap-3 mt-5 pt-4 border-t border-dashed border-border">
         <MiniStat icon={CloudRain} label="Pluie" value={`${weather.rainProbability}%`} highlight={willRain} />
         <MiniStat icon={Droplets}  label="Humidité" value={`${weather.humidity}%`} />
         <MiniStat icon={Wind}      label="Vent" value={`${weather.wind} km/h`} />
@@ -243,13 +263,15 @@ const WeatherForecast = ({ weather = MOCK_WEATHER }: { weather?: WeatherData }) 
 const MiniStat = ({
   icon: Icon, label, value, highlight,
 }: { icon: LucideIcon; label: string; value: string; highlight?: boolean }) => (
-  <div className="flex items-center gap-2">
-    <Icon className={`h-4 w-4 shrink-0 ${highlight ? "text-water" : "text-muted-foreground"}`} />
+  <div className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-colors ${highlight ? "bg-water/5" : "hover:bg-muted/50"}`}>
+    <div className={`p-1.5 rounded-lg ${highlight ? "bg-water/10" : "bg-muted"}`}>
+      <Icon className={`h-3.5 w-3.5 shrink-0 ${highlight ? "text-water" : "text-muted-foreground"}`} />
+    </div>
     <div className="min-w-0">
-      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground leading-none">
+      <p className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground leading-none">
         {label}
       </p>
-      <p className={`text-sm font-bold leading-tight mt-0.5 ${highlight ? "text-water" : "text-foreground"}`}>
+      <p className={`text-sm font-bold leading-tight mt-1 ${highlight ? "text-water" : "text-foreground"}`}>
         {value}
       </p>
     </div>
